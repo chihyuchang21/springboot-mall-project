@@ -1,6 +1,5 @@
 package com.example.spboot.service.impl;
 
-import com.example.spboot.constant.ProductCategory;
 import com.example.spboot.dao.ProductDao;
 import com.example.spboot.dto.ProductQueryParams;
 import com.example.spboot.dto.ProductRequest;
@@ -16,6 +15,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductDao productDao;
+
+    @Override
+    public Integer countProduct(ProductQueryParams productQueryParams) {
+        return productDao.countProduct(productQueryParams);
+    }
 
     @Override
     public List<Product> getProducts(ProductQueryParams productQueryParams) {
