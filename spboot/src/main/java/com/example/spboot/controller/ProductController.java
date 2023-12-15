@@ -23,14 +23,22 @@ public class ProductController {
     //查詢商品列表
     @GetMapping("/products")
     public ResponseEntity<List<Product>> getProducts(
+            //查詢條件 Filtering
             @RequestParam(required = false) ProductCategory category, //想查看哪一類商品，把category的值一路從Controller層傳到Dao裡面
-            @RequestParam(required = false) String search //search也用相同方法傳入Dao
-    ){
-        ProductQueryParams productQueryParams = new ProductQueryParams();
-        ProductQueryParams.setCategory(category); //把前端傳過來的值set到這個變數中
-        ProductQueryParams.setSearch(search);
+            @RequestParam(required = false) String search, //search也用相同方法傳入Dao
 
-        List<Product> productList = productService.getProducts(productQueryParams);
+            //排序 Sorting
+            @RequestParam(defaultValue = "created_date") String orderBy, //根據什麼欄位排序
+            @RequestParam(defaultValue = "desc") String sort //升序or降序(desc)
+    ){
+        //把前端傳過來的值set到這個變數中
+        ProductQueryParams productQueryParams = new ProductQueryParams();
+        productQueryParams.setCategory(category);
+        productQueryParams.setSearch(search);
+        productQueryParams.setOrderBy(orderBy);
+        productQueryParams.setSort(sort);
+
+        List<Product> productList = productService.getProducts(productQueryParams); //improved
 
         //返回productList給前端
         return ResponseEntity.status(HttpStatus.OK).body(productList);

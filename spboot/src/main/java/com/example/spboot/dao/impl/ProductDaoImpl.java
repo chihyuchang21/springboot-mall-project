@@ -40,6 +40,9 @@ public class ProductDaoImpl implements ProductDao {
             map.put("search", "%" + productQueryParams.getSearch() + "%"); //category是enum，要用name方法轉為str
         }
 
+        //不用null的judgement，因為在Controller中已設定defaultValue
+        //JDBC技術限制，ORDER BY要使用拼接方法撰寫[務必+space]
+        sql = sql + " ORDER BY " + productQueryParams.getOrderBy() + " " + productQueryParams.getSort();
 
         List<Product> productList = namedParameterJdbcTemplate.query(sql, map, new ProductRowMapper());
 
