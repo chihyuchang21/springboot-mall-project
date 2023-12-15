@@ -30,6 +30,7 @@ public class ProductDaoImpl implements ProductDao {
 
         Map<String, Object> map = new HashMap<>();
 
+        //查詢條件
         if (productQueryParams.getCategory() != null){
             sql = sql + " AND category = :category";
             map.put("category", productQueryParams.getCategory().name()); //category是enum，要用name方法轉為str
@@ -42,9 +43,16 @@ public class ProductDaoImpl implements ProductDao {
 
         //不用null的judgement，因為在Controller中已設定defaultValue
         //JDBC技術限制，ORDER BY要使用拼接方法撰寫[務必+space]
+
+        //排序
         sql = sql + " ORDER BY " + productQueryParams.getOrderBy() + " " + productQueryParams.getSort();
 
-        List<Product> productList = namedParameterJdbcTemplate.query(sql, map, new ProductRowMapper());
+        //分頁
+        sql = sql + " LIMIT :limit OFFSET :offset";
+        map.put("limit", productQueryParams.getLimit());
+        map.put("offset", productQueryParams.getOffset());
+
+                List<Product> productList = namedParameterJdbcTemplate.query(sql, map, new ProductRowMapper());
 
         return productList;
     }

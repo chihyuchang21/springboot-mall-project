@@ -6,13 +6,17 @@ import com.example.spboot.dto.ProductRequest;
 import com.example.spboot.model.Product;
 import com.example.spboot.service.ProductService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Validated //易忘
 //表示此為Controller層的Bean
 @RestController
 public class ProductController {
@@ -29,7 +33,11 @@ public class ProductController {
 
             //排序 Sorting
             @RequestParam(defaultValue = "created_date") String orderBy, //根據什麼欄位排序
-            @RequestParam(defaultValue = "desc") String sort //升序or降序(desc)
+            @RequestParam(defaultValue = "desc") String sort, //升序or降序(desc)
+
+            //分頁 Pagination //都是從url中取得的請求參數
+            @RequestParam(defaultValue = "5") @Max(1000) @Min(0) Integer limit, //取得幾筆商品數據
+            @RequestParam(defaultValue = "0") @Min(0) Integer offset //跳過幾筆數據
     ){
         //把前端傳過來的值set到這個變數中
         ProductQueryParams productQueryParams = new ProductQueryParams();
@@ -37,6 +45,8 @@ public class ProductController {
         productQueryParams.setSearch(search);
         productQueryParams.setOrderBy(orderBy);
         productQueryParams.setSort(sort);
+        productQueryParams.setLimit(limit);
+        productQueryParams.setOffset(offset);
 
         List<Product> productList = productService.getProducts(productQueryParams); //improved
 
