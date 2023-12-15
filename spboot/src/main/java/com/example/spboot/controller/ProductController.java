@@ -1,5 +1,6 @@
 package com.example.spboot.controller;
 
+import com.example.spboot.constant.ProductCategory;
 import com.example.spboot.dto.ProductRequest;
 import com.example.spboot.model.Product;
 import com.example.spboot.service.ProductService;
@@ -20,8 +21,11 @@ public class ProductController {
 
     //查詢商品列表
     @GetMapping("/products")
-    public ResponseEntity<List<Product>> getProducts(){
-        List<Product> productList = productService.getProducts();
+    public ResponseEntity<List<Product>> getProducts(
+            @RequestParam(required = false) ProductCategory category, //想查看哪一類商品，把category的值一路從Controller層傳到Dao裡面
+            @RequestParam(required = false) String search //search也用相同方法傳入Dao
+    ){
+        List<Product> productList = productService.getProducts(category,search);
 
         //返回productList給前端
         return ResponseEntity.status(HttpStatus.OK).body(productList);
