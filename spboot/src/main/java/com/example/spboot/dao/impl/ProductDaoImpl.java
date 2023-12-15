@@ -27,15 +27,7 @@ public class ProductDaoImpl implements ProductDao {
         Map<String, Object> map = new HashMap<>();
 
         //查詢條件
-        if (productQueryParams.getCategory() != null) {
-            sql = sql + " AND category = :category";
-            map.put("category", productQueryParams.getCategory().name()); //category是enum，要用name方法轉為str
-        }
-
-        if (productQueryParams.getSearch() != null) {
-            sql = sql + " AND product_name LIKE :search"; //模糊查詢
-            map.put("search", "%" + productQueryParams.getSearch() + "%"); //category是enum，要用name方法轉為str
-        }
+        sql = addFilteringsql(sql, map, productQueryParams);
 
         Integer total = namedParameterJdbcTemplate.queryForObject(sql, map, Integer.class);
 
@@ -50,19 +42,10 @@ public class ProductDaoImpl implements ProductDao {
         Map<String, Object> map = new HashMap<>();
 
         //查詢條件
-        if (productQueryParams.getCategory() != null){
-            sql = sql + " AND category = :category";
-            map.put("category", productQueryParams.getCategory().name()); //category是enum，要用name方法轉為str
-        }
-
-        if (productQueryParams.getSearch() != null){
-            sql = sql + " AND product_name LIKE :search"; //模糊查詢
-            map.put("search", "%" + productQueryParams.getSearch() + "%"); //category是enum，要用name方法轉為str
-        }
+        sql = addFilteringsql(sql, map, productQueryParams);
 
         //不用null的judgement，因為在Controller中已設定defaultValue
         //JDBC技術限制，ORDER BY要使用拼接方法撰寫[務必+space]
-
         //排序
         sql = sql + " ORDER BY " + productQueryParams.getOrderBy() + " " + productQueryParams.getSort();
 
@@ -147,5 +130,21 @@ public class ProductDaoImpl implements ProductDao {
 
         namedParameterJdbcTemplate.update(sql,map);
 
+    }
+
+
+    private String addFilteringsql(String sql, Map<String, Object> map, ProductQueryParams productQueryParams){
+        //查詢條件
+        if (productQueryParams.getCategory() != null){
+            sql = sql + " AND category = :category";
+            map.put("category", productQueryParams.getCategory().name()); //category是enum，要用name方法轉為str
+        }
+
+        if (productQueryParams.getSearch() != null){
+            sql = sql + " AND product_name LIKE :search"; //模糊查詢
+            map.put("search", "%" + productQueryParams.getSearch() + "%"); //category是enum，要用name方法轉為str
+        }
+
+        return sql;
     }
 }
