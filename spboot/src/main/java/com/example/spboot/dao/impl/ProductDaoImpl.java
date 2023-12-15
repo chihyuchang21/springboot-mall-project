@@ -1,7 +1,7 @@
 package com.example.spboot.dao.impl;
 
-import com.example.spboot.constant.ProductCategory;
 import com.example.spboot.dao.ProductDao;
+import com.example.spboot.dto.ProductQueryParams;
 import com.example.spboot.dto.ProductRequest;
 import com.example.spboot.model.Product;
 import com.example.spboot.rowmapper.ProductRowMapper;
@@ -25,19 +25,19 @@ public class ProductDaoImpl implements ProductDao {
 
 
     @Override
-    public List<Product> getProducts(ProductCategory category, String search) {
+    public List<Product> getProducts(ProductQueryParams productQueryParams) {
         String sql = "SELECT product_id, product_name, category, image_url, price, stock, description, created_date, last_modified_date FROM product WHERE 1 = 1";
 
         Map<String, Object> map = new HashMap<>();
 
-        if (category != null){
+        if (productQueryParams.getCategory() != null){
             sql = sql + " AND category = :category";
-            map.put("category", category.name()); //category是enum，要用name方法轉為str
+            map.put("category", productQueryParams.getCategory().name()); //category是enum，要用name方法轉為str
         }
 
-        if (search != null){
+        if (productQueryParams.getSearch() != null){
             sql = sql + " AND product_name LIKE :search"; //模糊查詢
-            map.put("search", "%" + search + "%"); //category是enum，要用name方法轉為str
+            map.put("search", "%" + productQueryParams.getSearch() + "%"); //category是enum，要用name方法轉為str
         }
 
 

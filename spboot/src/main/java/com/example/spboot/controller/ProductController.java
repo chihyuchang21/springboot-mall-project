@@ -1,6 +1,7 @@
 package com.example.spboot.controller;
 
 import com.example.spboot.constant.ProductCategory;
+import com.example.spboot.dto.ProductQueryParams;
 import com.example.spboot.dto.ProductRequest;
 import com.example.spboot.model.Product;
 import com.example.spboot.service.ProductService;
@@ -25,7 +26,11 @@ public class ProductController {
             @RequestParam(required = false) ProductCategory category, //想查看哪一類商品，把category的值一路從Controller層傳到Dao裡面
             @RequestParam(required = false) String search //search也用相同方法傳入Dao
     ){
-        List<Product> productList = productService.getProducts(category,search);
+        ProductQueryParams productQueryParams = new ProductQueryParams();
+        ProductQueryParams.setCategory(category); //把前端傳過來的值set到這個變數中
+        ProductQueryParams.setSearch(search);
+
+        List<Product> productList = productService.getProducts(productQueryParams);
 
         //返回productList給前端
         return ResponseEntity.status(HttpStatus.OK).body(productList);

@@ -2,6 +2,7 @@ package com.example.spboot.service.impl;
 
 import com.example.spboot.constant.ProductCategory;
 import com.example.spboot.dao.ProductDao;
+import com.example.spboot.dto.ProductQueryParams;
 import com.example.spboot.dto.ProductRequest;
 import com.example.spboot.model.Product;
 import com.example.spboot.service.ProductService;
@@ -17,8 +18,8 @@ public class ProductServiceImpl implements ProductService {
     private ProductDao productDao;
 
     @Override
-    public List<Product> getProducts(ProductCategory category, String search) {
-        return productDao.getProducts(category, search);
+    public List<Product> getProducts(ProductQueryParams productQueryParams) {
+        return productDao.getProducts(productQueryParams);
     }
 
     @Override
