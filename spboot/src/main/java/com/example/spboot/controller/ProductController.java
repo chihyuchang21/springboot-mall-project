@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 //表示此為Controller層的Bean
 @RestController
 public class ProductController {
@@ -16,7 +18,18 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    //Read Data
+    //查詢商品列表
+    @GetMapping("/products")
+    public ResponseEntity<List<Product>> getProducts(){
+        List<Product> productList = productService.getProducts();
+
+        //返回productList給前端
+        return ResponseEntity.status(HttpStatus.OK).body(productList);
+    }
+
+
+
+    //Read Data(one specific product)
     @GetMapping("/products/{productId}")
     public ResponseEntity<Product> getProduct(@PathVariable Integer productId){
         //需使用ProductServie中的方法

@@ -3,7 +3,11 @@ package com.example.spboot.dao;
 import com.example.spboot.dto.ProductRequest;
 import com.example.spboot.model.Product;
 
+import java.util.List;
+
 public interface ProductDao {
+
+    List<Product> getProducts();
 
     Product getProductById(Integer productId);
 
