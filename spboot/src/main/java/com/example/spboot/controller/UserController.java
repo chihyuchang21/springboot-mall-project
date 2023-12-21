@@ -1,5 +1,6 @@
 package com.example.spboot.controller;
 
+import com.example.spboot.dto.UserLoginRequest;
 import com.example.spboot.dto.UserRegisterRequest;
 import com.example.spboot.model.User;
 import com.example.spboot.service.UserService;
@@ -25,4 +26,12 @@ public class UserController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(user); //回傳201狀態碼
     }
+
+    @PostMapping("/users/login")
+    public ResponseEntity<User> login(@RequestBody @Valid UserLoginRequest userLoginRequest){
+        User user = userService.login(userLoginRequest);
+
+        return ResponseEntity.status(HttpStatus.OK).body(user);
+    }
+
 }
