@@ -4,6 +4,7 @@ import com.example.spboot.dao.OrderDao;
 import com.example.spboot.dao.ProductDao;
 import com.example.spboot.dto.BuyItem;
 import com.example.spboot.dto.CreateOrderRequest;
+import com.example.spboot.model.Order;
 import com.example.spboot.model.OrderItem;
 import com.example.spboot.model.Product;
 import com.example.spboot.service.OrderService;
@@ -23,6 +24,16 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private ProductDao productDao;
 
+    @Override
+    public Order getOrderById(Integer orderId) {
+        Order order = orderDao.getOrderById(orderId);
+
+        List<OrderItem> orderItemList = orderDao.getOrderItemsByOrderId(orderId);
+
+        order.setOrderItemList(orderItemList);
+
+        return order;
+    }
 
     @Transactional //確保兩張table同時成功/失敗
     @Override
