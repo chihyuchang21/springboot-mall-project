@@ -1,12 +1,13 @@
 package com.example.spboot.service.impl;
 
+import com.example.spboot.service.ECpayService;
 import org.springframework.stereotype.Service;
 
-import ecpay.payment.integration.AllInOne;
-import ecpay.payment.integration.domain.AioCheckOutALL;
+import com.example.spboot.integration.AllInOne;
+import com.example.spboot.integration.domain.AioCheckOutALL;
 
 @Service
-public class ECpayServiceImpl {
+public class ECpayServiceImpl implements ECpayService {
 
     public String eCpayCheckout() {
 

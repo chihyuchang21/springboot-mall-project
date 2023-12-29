@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class ECpayController {
 
     @Autowired
-    ECpayServiceImpl ecpayServiceImpl;
+    ECpayServiceImpl eCpayServiceImpl;
 
     @PostMapping("/ecpayCheckout")
     public String ecpayCheckout() {
-        String aioCheckOutALLForm = ECpayServiceImpl.eCpayCheckout();
+        String aioCheckOutALLForm = eCpayServiceImpl.eCpayCheckout();
 
         return aioCheckOutALLForm;
     }
