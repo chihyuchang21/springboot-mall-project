@@ -1,23 +1,23 @@
 package ecpay.payment.integration.ecpayOperator;
 
+import ecpay.payment.integration.errorMsg.ErrorMessage;
+import ecpay.payment.integration.exception.EcpayException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import ecpay.payment.integration.errorMsg.ErrorMessage;
-import ecpay.payment.integration.exception.EcpayException;
-
 public class PaymentVerifyBase{
-	protected String confPath = "/ecpay/payment/integration/config/EcpayPayment.xml";
+	protected String confPath = "EcpayPayment.xml";
 	protected Document doc;
 	public PaymentVerifyBase(){
 		URL fileURL = this.getClass().getResource(confPath);
-		doc = EcpayFunction.xmlParser(fileURL.toString());
+        doc = EcpayFunction.xmlParser(fileURL.toString());
 		doc.getDocumentElement().normalize();
 	}
 	
