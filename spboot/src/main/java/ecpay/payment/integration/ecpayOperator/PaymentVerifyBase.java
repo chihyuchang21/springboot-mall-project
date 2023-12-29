@@ -13,7 +13,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class PaymentVerifyBase{
-	protected String confPath = "EcpayPayment.xml";
+	protected String confPath = "./src/main/resources/EcpayPayment.xml";
 	protected Document doc;
 	public PaymentVerifyBase(){
 		URL fileURL = this.getClass().getResource(confPath);
